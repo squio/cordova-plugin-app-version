@@ -20,4 +20,18 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
+- (void)getVersionCode:(CDVInvokedUrlCommand*)command
+{
+    NSString* callbackId = command.callbackId;
+    NSString* version =[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    if (version == nil) {
+        NSLog(@"CFBundleVersion was nil, giving up");
+        // not calling error callback here to maintain backward compatibility
+    }
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:version];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+}
+
+
 @end
